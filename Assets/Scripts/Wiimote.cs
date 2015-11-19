@@ -13,11 +13,6 @@ public class Wiimote : MonoBehaviour {
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	//for Wiimote
 	float calZ = -1;
