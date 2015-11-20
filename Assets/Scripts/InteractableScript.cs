@@ -6,7 +6,6 @@ public abstract class InteractableScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame
@@ -33,5 +32,5 @@ public abstract class InteractableScript : MonoBehaviour {
     public abstract void Throw();
 
     //Object's response to turning the wiimote
-    public abstract void Turn();
+    public abstract void Turn(float radians);
 }
