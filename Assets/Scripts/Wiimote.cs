@@ -5,15 +5,22 @@ using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Sprites;
 
+/* 
+ * To use Wiimote, person should run DarwiinRemote and start recording into a file called
+ * "wiimote.txt" in the GoodbyeWorld directory. Once that is up and running, run this file
+ * and the program will start reading coordinates from there.
+ */
 public class Wiimote : MonoBehaviour {
-
+	
+	public GameObject gameManager;
+	private long lastAction; //time stamp of last action
+	
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
-
+	
 	//for Wiimote
 	float calZ = -1;
 	float calX = -100;
@@ -21,9 +28,9 @@ public class Wiimote : MonoBehaviour {
 	float accX = 0, accY = 0, accZ = 0;
 	private bool zPressed;
 	private bool xPressed;
-
+	private bool godmode;
 	
-	int getWiimoteCoords() {
+	int GetWiimoteCoords() {
 		
 		string coordinates = "wiimote.txt";
 		string coordinateFile = Path.GetFileName (coordinates);
@@ -58,40 +65,52 @@ public class Wiimote : MonoBehaviour {
 		return 0;
 	}
 	
+	void UpdateTimeStamp() {
+		lastAction = DateTime.Now.Ticks;
+	}
+	
+	bool CanActionPerformNow() {
+		return (DateTime.Now.Ticks - lastAction) > 1000; //TODO: probably want to put it at 1.5 seconds, need to test this out to see how long it actually is
+	}
+	
 	void Awake ()
 	{	
 		zPressed = false;
+		godmode = true;
+		lastAction = 0;
 	}
 	
-	/* 
-	 * To use Wiimote, person should run DarwiinRemote and start recording into a file called
-	 * "wiimote.txt" in the SceneStudio directory. Once that is up and running, run this file
-	 * and the program will start reading coordinates from there.
-	 */
 	void Update()
 	{	
-		//B BUTTON
-		if (Input.GetKey (KeyCode.Z)) {
-			if (!zPressed) {
-				//first time pressing Z, place cursor in center of canvas
-				zPressed = true;
-				
-				
-			} else {
-				//Z has been pressed for a while start moving the cursor
-				getWiimoteCoords ();
-			}
-			// A BUTTON
-			if (Input.GetKey (KeyCode.X)) {
-				//stuff
-			}
+		//(1) BUTTON: toggle God mode
+		if (Input.GetKey (KeyCode.Return)) {
+			godmode = !godmode;
 		}
-		if (!Input.GetKey (KeyCode.Z)) {
-			//hide cursor
-			zPressed = false;
+		
+		//A BUTTON: control rotation of the sun
+		if (Input.GetKey (KeyCode.X)) {
+			GetWiimoteCoords();
+			
 		}
-		if (!Input.GetKey (KeyCode.X)) {
-			xPressed = false;
+		
+		if (godmode) {
+			//ARROW KEYS: switch between selected objects
+			if (Input.GetKey (KeyCode.LeftArrow)) {
+				//go back one index in the global array of objects
+			}  else if (Input.GetKey (KeyCode.RightArrow)) {
+				//go forward one index in the global array of objects
+			}
+			
+			if (CanActionPerformNow) {
+				//LIFT
+				if (accY > 5) {
+					
+				}
+				//THROW
+				if (accY < -5) {
+				}
+			}
 		}
 	}
 }
+
