@@ -15,21 +15,21 @@ public class Wiimote : MonoBehaviour {
 	
 	public GameObject gameManager;
 	private long lastAction; //time stamp of last action
+	private bool performable;
 	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	//for Wiimote
-	float calZ = -1;
-	float calX = -100;
-	float smooth = 20;
-	float accX = 0, accY = 0, accZ = 0;
+	private float calZ = -1;
+	private float calX = -100;
+	private float smooth = 20;
+	private float accX = 0, accY = 0, accZ = 0;
 	private bool zPressed;
 	private bool xPressed;
 	private bool godmode;
 	
+	// Use this for initialization
+	void Start () {
+		performable = true;	
+	}
+
 	int GetWiimoteCoords() {
 		
 		string coordinates = "wiimote.txt";
@@ -65,12 +65,18 @@ public class Wiimote : MonoBehaviour {
 		return 0;
 	}
 	
-	void UpdateTimeStamp() {
+	void PerformAction () {
 		lastAction = DateTime.Now.Ticks;
+		performable = false;
 	}
 	
-	bool CanActionPerformNow() {
-		return (DateTime.Now.Ticks - lastAction) > 1000; //TODO: probably want to put it at 1.5 seconds, need to test this out to see how long it actually is
+	void UpdateTimeStamp() {
+		if (DateTime.Now.Ticks - lastAction > 18000000) { //1.5 seconds
+			performable = true;
+			Debug.Log ("okay you can go for it again");
+		}
+		else
+			performable = false;
 	}
 	
 	void Awake ()
@@ -82,36 +88,45 @@ public class Wiimote : MonoBehaviour {
 	
 	void Update()
 	{	
+		if (!performable) UpdateTimeStamp ();
+		
 		//(1) BUTTON: toggle God mode
 		if (Input.GetKey (KeyCode.Return)) {
 			godmode = !godmode;
+			Debug.Log ("currently in god mode: " + godmode);
 		}
+		
+		GetWiimoteCoords();
 		
 		//A BUTTON: control rotation of the sun
 		if (Input.GetKey (KeyCode.X)) {
-			GetWiimoteCoords();
-			
+			float rad = -accX * 2 * (float)Math.PI;
+			gameManager.GetComponent<GameManagerScript> ().TurnSun (rad);
 		}
 		
 		if (godmode) {
 			//ARROW KEYS: switch between selected objects
 			if (Input.GetKey (KeyCode.LeftArrow)) {
-				//go back one index in the global array of objects
-			}  else if (Input.GetKey (KeyCode.RightArrow)) {
-				//go forward one index in the global array of objects
+				gameManager.GetComponent<GameManagerScript> ().ChangeSelection (true);
+			} else if (Input.GetKey (KeyCode.RightArrow)) {
+				gameManager.GetComponent<GameManagerScript> ().ChangeSelection (false);
 			}
 			
-            /*
-			if (CanActionPerformNow) {
-				//LIFT
-				if (accY > 5) {
-					
+			//LIFT AND THROW
+			if (performable) {
+				//create object
+				if (-accZ > 2.5) {
+					PerformAction ();
+					gameManager.GetComponent<GameManagerScript> ().CreateObject ();
 				}
-				//THROW
-				if (accY < -5) {
+				//destroy object
+				if (-accZ < -2.5) {
+					PerformAction ();
+					gameManager.GetComponent<GameManagerScript> ().DestroyObject ();
 				}
 			}
-             */ 
+		} else {
+			//be able to move around
 		}
 	}
 }
