@@ -4,6 +4,7 @@ using System.Collections;
 public class SunScript : InteractableScript {
 
     private GameObject selectionBox;
+    private float darknessTransparency = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -55,6 +56,16 @@ public class SunScript : InteractableScript {
     //Object's response to turning the wiimote
     override public void Turn(float radians)
     {
-        this.GetComponent<Light>().intensity += (radians / (2 * Mathf.PI)) * 1;
+        if ((darknessTransparency > 0.7 && radians > 0) || (darknessTransparency <= 0.0 && radians < 0))
+            return;
+        darknessTransparency += (radians / (2.0f * Mathf.PI)) * 0.1f;
+        GameObject darkness = GameObject.Find("Darkness");
+
+        Color oldColor = darkness.GetComponent<SpriteRenderer>().color;
+        Color newColor = new Color(oldColor.r, oldColor.b, oldColor.g, darknessTransparency);
+
+        Debug.Log(darknessTransparency);
+
+        darkness.GetComponent<SpriteRenderer>().color = newColor;
     }
 }
