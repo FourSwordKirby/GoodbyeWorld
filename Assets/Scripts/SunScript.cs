@@ -55,5 +55,6 @@ public class SunScript : InteractableScript {
     //Object's response to turning the wiimote
     override public void Turn(float radians)
     {
+        this.GetComponent<Light>().intensity += (radians / (2 * Mathf.PI)) * 1;
     }
 }

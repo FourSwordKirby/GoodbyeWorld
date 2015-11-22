@@ -101,6 +101,7 @@ public class Wiimote : MonoBehaviour {
 				//go forward one index in the global array of objects
 			}
 			
+            /*
 			if (CanActionPerformNow) {
 				//LIFT
 				if (accY > 5) {
@@ -110,6 +111,7 @@ public class Wiimote : MonoBehaviour {
 				if (accY < -5) {
 				}
 			}
+             */ 
 		}
 	}
 }
