@@ -62,7 +62,7 @@ public class BuildingCreatorScript : InteractableScript {
 	override public void Lift()
 	{
 		InteractableScript building = ((GameObject)Instantiate (Resources.Load ("Building"))).GetComponent<InteractableScript>();
-		gameManager.GetComponent<GameManagerScript> ().ObjectWasCreated (building, false);
+		(GameObject.Find ("GameManager")).GetComponent<GameManagerScript> ().ObjectWasCreated (building, false);
 	}
 	
 	//Object's response to bringing down the wiimote

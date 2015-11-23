@@ -64,8 +64,7 @@ public class TreeCreatorScript : InteractableScript {
 	override public void Lift()
 	{
 		InteractableScript tree = ((GameObject)Instantiate (Resources.Load ("Tree"))).GetComponent<InteractableScript>();
-		gameManager.GetComponent<GameManagerScript> ().ObjectWasCreated (tree, true);
-
+		(GameObject.Find ("GameManager")).GetComponent<GameManagerScript> ().ObjectWasCreated (tree, true);
 	}
 	
 	//Object's response to bringing down the wiimote
