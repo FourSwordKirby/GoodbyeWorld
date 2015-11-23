@@ -23,7 +23,7 @@ public class ShapeAnimator : MonoBehaviour
         {
             animator.SetBool("Dead", true);
         }
-        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Exit")) 
-            Destroy(this.gameObject);
+        if (lifeSpan <= -1.15f) 
+            Destroy(gameObject);
     }
 }
