@@ -11,13 +11,7 @@ public class TreeScript : InteractableScript {
 	
 	// Use this for initialization
 	void Start () {
-		this.GetComponent<SpriteRenderer> ().sprite = treeSprites[Random.Range (0,treeSprites.Count)];
-		destroy = false;
 
-		Vector2 location = transform.localPosition;
-		location.y = (float)-4.5 + GetComponent<SpriteRenderer> ().bounds.size.y;
-		location.x = (Random.value * 20)- 10;
-		transform.localPosition = location;
 	}
 	
 	// Update is called once per frame
@@ -54,11 +48,21 @@ public class TreeScript : InteractableScript {
 	//Things that happen on object creation
 	override public void Create()
 	{
+		this.GetComponent<SpriteRenderer> ().sprite = treeSprites[Random.Range (0,treeSprites.Count)];
+		destroy = false;
+
+		transform.localScale *= 0.75f;
+
+		Vector2 location = transform.localPosition;
+		location.y = (float)-3.5 + GetComponent<SpriteRenderer> ().bounds.size.y/2;
+		location.x = (Random.value * 20)- 10;
+		transform.localPosition = location;
 	}
 	
 	//Things that happen on object deletion
 	override public void Destroy()
 	{
+		destroy = true;
 	}
 	
 	//Object's response to bringing up the wiimote
@@ -69,6 +73,8 @@ public class TreeScript : InteractableScript {
 	//Object's response to bringing down the wiimote
 	override public void Throw()
 	{
+		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject ();
+		Destroy ();
 	}
 	
 	//Object's response to turning the wiimote

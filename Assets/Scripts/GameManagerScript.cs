@@ -70,8 +70,9 @@ public class GameManagerScript : MonoBehaviour {
 	
 	public void DestroyObject() {
 		if (objects.Count > 0) {
-			objects[selection].Destroy ();
-			objects.Remove (objects[selection]);
+			InteractableScript obj = objects[selection];
+			ChangeSelection(true);
+			objects.Remove(obj);
 		}
 		Debug.Log ("destroy object");
 	}
@@ -79,6 +80,7 @@ public class GameManagerScript : MonoBehaviour {
 	//cycle through all th different objects
 	public void ChangeSelection(bool next) {
 		if (objects.Count > 0) {
+			if (selection >= objects.Count) selection = objects.Count-1;
 			objects[selection].Exit();
 			if (next)
 				selection = (selection + 1) % objects.Count;
@@ -86,11 +88,9 @@ public class GameManagerScript : MonoBehaviour {
 				selection = (selection + objects.Count - 1) % objects.Count;
 			objects [selection].Enter ();
 		}
-		Debug.Log ("current index " + selection);
 	}
 	
 	public void Turn(float radians) {
-		Debug.Log ("Turn this many degrees " + radians);
 		if (objects.Count > 0)
 			objects[selection].Turn (radians);
 	}

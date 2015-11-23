@@ -80,8 +80,6 @@ public class CloudScript : InteractableScript {
         if (minDistance < 3.5f && radians > 0)
             return;
 
-		Debug.Log ("blahp");
-
         float scale = 1 - (radians / (2.0f * Mathf.PI)) * 1f;
         foreach (GameObject cloud in clouds)
         {

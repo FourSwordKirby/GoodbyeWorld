@@ -11,15 +11,6 @@ public class BuildingScript : InteractableScript {
 
 	// Use this for initialization
 	void Start () {
-		this.GetComponent<SpriteRenderer> ().sprite = buildingSprites[Random.Range (0,buildingSprites.Count)];
-		destroy = false;
-
-		Vector2 location = transform.localPosition;
-		location.y = (float)-4.5 + GetComponent<SpriteRenderer> ().bounds.size.y;
-		location.x = (Random.value * 20)- 10;
-		transform.localPosition = location;
-
-		transform.localScale *= 2.5f;
 	}
 
 	// Update is called once per frame
@@ -55,6 +46,15 @@ public class BuildingScript : InteractableScript {
 	//Things that happen on object creation
 	override public void Create()
 	{
+		this.GetComponent<SpriteRenderer> ().sprite = buildingSprites[Random.Range (0,buildingSprites.Count)];
+		destroy = false;
+
+		transform.localScale *= 1.25f;
+
+		Vector2 location = transform.localPosition;
+		location.y = (float)-3.5 + GetComponent<SpriteRenderer> ().bounds.size.y/2;
+		location.x = (Random.value * 20)- 10;
+		transform.localPosition = location;
 	}
 	
 	//Things that happen on object deletion
@@ -71,6 +71,8 @@ public class BuildingScript : InteractableScript {
 	//Object's response to bringing down the wiimote
 	override public void Throw()
 	{
+		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject ();
+		Destroy ();
 	}
 	
 	//Object's response to turning the wiimote
