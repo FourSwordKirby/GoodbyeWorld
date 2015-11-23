@@ -6,32 +6,49 @@ public class TreeCreatorScript : InteractableScript {
 	private GameObject selectionBox;
 	private float darknessTransparency = 0.0f;
 	public GameObject gameManager;
+	private bool selected;
+	private bool increasing;
 	
 	// Use this for initialization
 	void Start () {
+		selected = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (selected) {
+			Color color = GetComponent<SpriteRenderer>().color;
+			if (increasing) {
+				if (color.a >= 1.0f) {
+					increasing = false;
+				} else {
+					color.a += 0.03f;
+				}
+			} else {
+				if (color.a <= 0.25f) {
+					increasing = true;
+				} else {
+					color.a -= 0.03f;
+				}
+			}
+			GetComponent<SpriteRenderer>().color = color;
+		}
 	}
 	
 	//What happens when you select the object
 	override public void Enter()
 	{
-		selectionBox = GameObject.CreatePrimitive(PrimitiveType.Plane);
-		
-		//Sets the bounds etc. of the selection box
-		selectionBox.transform.Rotate(new Vector3(270, 0, 0));
-		selectionBox.transform.localScale *= 0.3f;
-		selectionBox.transform.SetParent(this.gameObject.transform);
-		selectionBox.transform.localPosition = new Vector2 (0, 0);
+		selected = true;
 		
 	}
 	
 	//What happens when you deselect the object
 	override public void Exit()
 	{
-		Destroy(selectionBox);
+		Color color = GetComponent<SpriteRenderer> ().color;
+		color.a = 1.0f;
+		GetComponent<SpriteRenderer> ().color = color;
+		selected = false;
 	}
 	
 	//Things that happen on object creation
