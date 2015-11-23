@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 
 public class TreeScript : InteractableScript {
-
-	private GameObject selectionBox;
-	private float darknessTransparency = 0.0f;
 	public List<Sprite> treeSprites;
 	public Sprite creepySprite;
 	private bool destroy;
@@ -13,6 +10,8 @@ public class TreeScript : InteractableScript {
 	private float SCALE = 0.5f;
 	private bool selected;
 	private bool increasing;
+	private long createdTimeStamp;
+	public long lifeSpan;
 	
 	// Use this for initialization
 	void Start () {
@@ -56,6 +55,12 @@ public class TreeScript : InteractableScript {
 				}
 			}
 			GetComponent<SpriteRenderer>().color = color;
+		}
+		if (System.DateTime.Now.Ticks - createdTimeStamp > lifeSpan * 10000000) {
+			GetComponent<SpriteRenderer>().sprite = creepySprite;
+			Vector2 location = transform.localPosition;
+			location.y = (float)-3.5 + GetComponent<SpriteRenderer> ().bounds.size.y/2;
+			transform.localPosition = location;
 		}
 	}
 	
@@ -102,12 +107,17 @@ public class TreeScript : InteractableScript {
 		scale.y = 0;
 		transform.localScale = scale;
 		create = true;
+
+		//prepare for decay
+		createdTimeStamp = System.DateTime.Now.Ticks;
 	}
 	
 	//Things that happen on object deletion
 	override public void Destroy()
 	{
 		destroy = true;
+		lifeSpan = 20000000;
+		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (this, true);
 	}
 	
 	//Object's response to bringing up the wiimote
@@ -118,7 +128,6 @@ public class TreeScript : InteractableScript {
 	//Object's response to bringing down the wiimote
 	override public void Throw()
 	{
-		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (true);
 		Destroy ();
 	}
 	

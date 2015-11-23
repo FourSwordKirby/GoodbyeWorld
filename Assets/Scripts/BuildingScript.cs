@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 
 public class BuildingScript : InteractableScript {
-	private GameObject selectionBox;
-	private float darknessTransparency = 0.0f;
 	private bool destroy;
-	private float originalScale;
 	private bool create;
 	private float SCALE = 2.0f;
 	private bool selected;
 	private bool increasing;
+	private long createdTimeStamp;
+	public long lifeSpan;
+	public float originalScale;
 
 	public List<Sprite> buildingSprites;
 
@@ -56,6 +56,9 @@ public class BuildingScript : InteractableScript {
 			}
 			GetComponent<SpriteRenderer>().color = color;
 		}
+		if (System.DateTime.Now.Ticks - createdTimeStamp > lifeSpan * 10000000) {
+			Destroy();
+		}
 	}
 	
 	//What happens when you select the object
@@ -96,12 +99,17 @@ public class BuildingScript : InteractableScript {
 		scale.y = 0;
 		transform.localScale = scale;
 		create = true;
+
+		//prepare for decay
+		createdTimeStamp = System.DateTime.Now.Ticks;
 	}
 	
 	//Things that happen on object deletion
 	override public void Destroy()
 	{
 		destroy = true;
+		lifeSpan = 20000000;
+		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (this, false);
 	}
 	
 	//Object's response to bringing up the wiimote
@@ -112,7 +120,6 @@ public class BuildingScript : InteractableScript {
 	//Object's response to bringing down the wiimote
 	override public void Throw()
 	{
-		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (false);
 		Destroy ();
 	}
 	

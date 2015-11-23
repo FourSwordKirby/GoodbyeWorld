@@ -36,10 +36,12 @@ public class GameManagerScript : MonoBehaviour {
 	//toggle god mode, basically select and deselect
 	public void SetGodMode (bool godmode) {
 		//entering godmode
-		if (godmode) {
-			objects[selection].Enter ();
-		} else {
-			objects[selection].Exit ();
+		if (objects.Count > 0) {
+			if (godmode) {
+				objects [selection].Enter ();
+			} else {
+				objects [selection].Exit ();
+			}
 		}
 	}
 
@@ -47,11 +49,35 @@ public class GameManagerScript : MonoBehaviour {
 	public void ObjectWasCreated(InteractableScript spawn, bool tree) {
 		spawn.Create ();
 		objects.Add (spawn);
+		Debug.Log ("Add " + spawn);
 
-		if (tree) 
+		if (tree) {
 			++trees;
-		else
+			GameObject.Find ("TreeCreator").GetComponent<TreeCreatorScript> ().IncreaseLifeSpan ();
+		} else {
 			++buildings;
+			GameObject.Find ("TreeCreator").GetComponent<TreeCreatorScript> ().DecreaseLifeSpan ();
+		}
+	}
+
+	public void DestroyObject(InteractableScript spawn, bool tree) {
+		Debug.Log ("DESTROY: index " + selection + " objects count " + objects.Count);
+		InteractableScript newObj = null;
+		InteractableScript obj = objects[selection];
+		if (obj == spawn) {
+			ChangeSelection (true);
+			newObj = objects [selection];
+		}
+		objects.Remove(spawn);
+		Debug.Log ("remove " + obj);
+		if (obj == spawn) selection = objects.IndexOf (newObj);
+		
+		if (tree)
+			--trees;
+		else {
+			--buildings;
+			GameObject.Find("TreeCreator").GetComponent<TreeCreatorScript>().IncreaseLifeSpan();
+		}
 	}
 	
 	public void CreateObject() {
@@ -80,23 +106,10 @@ public class GameManagerScript : MonoBehaviour {
 
 	}
 	
-	public void DestroyObject(bool tree) {
-		InteractableScript obj = objects[selection];
-		ChangeSelection(true);
-		InteractableScript newObj = objects [selection];
-		objects.Remove(obj);
-		selection = objects.IndexOf (newObj);
-
-		if (tree)
-			--trees;
-		else 
-			--buildings;
-	}
-	
 	//cycle through all th different objects
 	public void ChangeSelection(bool next) {
 		if (objects.Count > 0) {
-			objects[selection].Exit();
+			if (objects[selection]) objects[selection].Exit();
 			if (next)
 				selection = (selection + 1) % objects.Count;
 			else 

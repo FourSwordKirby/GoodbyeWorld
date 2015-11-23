@@ -4,7 +4,6 @@ using System;
 using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
-using UnityEngine;
 
 /* 
  * To use Wiimote, person should run DarwiinRemote and start recording into a file called

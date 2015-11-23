@@ -2,11 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class TreeCreatorScript : InteractableScript {
-	
-	private GameObject selectionBox;
-	private float darknessTransparency = 0.0f;
 	private bool selected;
 	private bool increasing;
+	private long lifeSpan = 15;
 	
 	// Use this for initialization
 	void Start () {
@@ -59,12 +57,23 @@ public class TreeCreatorScript : InteractableScript {
 	override public void Destroy()
 	{
 	}
+
+	public void DecreaseLifeSpan() {
+		if (lifeSpan > 3) 
+			lifeSpan -= 1;
+	}
+
+	public void IncreaseLifeSpan() {
+		if (lifeSpan < 15)
+			lifeSpan += 1;
+	}
 	
 	//Object's response to bringing up the wiimote
 	override public void Lift()
 	{
-		InteractableScript tree = ((GameObject)Instantiate (Resources.Load ("Tree"))).GetComponent<InteractableScript>();
+		TreeScript tree = ((GameObject)Instantiate (Resources.Load ("Tree"))).GetComponent<TreeScript>();
 		(GameObject.Find ("GameManager")).GetComponent<GameManagerScript> ().ObjectWasCreated (tree, true);
+		tree.lifeSpan = lifeSpan;
 	}
 	
 	//Object's response to bringing down the wiimote

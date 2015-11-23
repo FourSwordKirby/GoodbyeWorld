@@ -2,11 +2,9 @@
 using System.Collections;
 
 public class BuildingCreatorScript : InteractableScript {
-	
-	private GameObject selectionBox;
-	private float darknessTransparency = 0.0f;
 	private bool selected;
 	private bool increasing;
+	private long lifeSpan = 12;
 	
 	// Use this for initialization
 	void Start () {
@@ -61,8 +59,9 @@ public class BuildingCreatorScript : InteractableScript {
 	//Object's response to bringing up the wiimote
 	override public void Lift()
 	{
-		InteractableScript building = ((GameObject)Instantiate (Resources.Load ("Building"))).GetComponent<InteractableScript>();
+		BuildingScript building = ((GameObject)Instantiate (Resources.Load ("Building"))).GetComponent<BuildingScript>();
 		(GameObject.Find ("GameManager")).GetComponent<GameManagerScript> ().ObjectWasCreated (building, false);
+		building.lifeSpan = lifeSpan;
 	}
 	
 	//Object's response to bringing down the wiimote

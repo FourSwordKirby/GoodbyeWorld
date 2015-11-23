@@ -2,12 +2,10 @@
 using System.Collections;
 
 public class SunScript : InteractableScript {
-
-    private GameObject selectionBox;
     private float darknessTransparency = 0.0f;
-	private bool selected;
 	private bool increasing;
 	private bool created;
+	private bool selected;
 
 	// Use this for initialization
 	void Start () {

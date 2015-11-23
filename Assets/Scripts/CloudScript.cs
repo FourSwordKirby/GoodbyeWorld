@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CloudScript : InteractableScript {
-
-	private GameObject selectionBox;
     public List<GameObject> clouds;
 	private List<string> rain;
 	private bool selected;
@@ -97,13 +95,14 @@ public class CloudScript : InteractableScript {
 		ShapeAnimator animator = ((GameObject)Instantiate(Resources.Load (rain[index]))).GetComponent<ShapeAnimator>();
 
 		//set position
-		Vector2 pos = animator.transform.localPosition;
+		Vector3 pos = animator.transform.localPosition;
 		pos.x = (Random.value * 20)- 10;
 		pos.y = 0;
+		pos.z += 0.2f;
 		animator.transform.localPosition = pos;
 
 		//make smaller
-		animator.transform.localScale *= 0.35f;
+		animator.transform.localScale *= 0.20f;
 
     }
 
