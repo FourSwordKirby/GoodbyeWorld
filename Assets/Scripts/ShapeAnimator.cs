@@ -25,5 +25,13 @@ public class ShapeAnimator : MonoBehaviour
         }
         if (lifeSpan <= -1.15f) 
             Destroy(gameObject);
+
+		//make it fall down to the "ground"
+		Vector2 pos = transform.position;
+		Vector2 size = GetComponent<SpriteRenderer> ().bounds.size;
+		if (pos.y > -3.5 + size.y / 2) {
+			pos.y -= 0.1f;
+			transform.position = pos;
+		}
     }
 }

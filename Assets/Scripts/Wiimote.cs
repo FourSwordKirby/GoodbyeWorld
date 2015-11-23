@@ -97,7 +97,6 @@ public class Wiimote : MonoBehaviour {
 				godmode = !godmode;
 				GameObject.Find ("Character").GetComponent<CharacterAnimator> ().move = !godmode;
 				gameManager.GetComponent<GameManagerScript> ().SetGodMode (godmode);
-				Debug.Log ("currently in god mode: " + godmode);
 			}
 		} else {
 			onePressed = false;
@@ -110,7 +109,10 @@ public class Wiimote : MonoBehaviour {
 			float rad = -accX * 2 * (float)Math.PI;
 			gameManager.GetComponent<GameManagerScript> ().Turn (rad);
 		}
-		
+
+		//character script handles all of the moving, so we don't need to do anything about that
+
+		//tell GameManager to do appropriate things if in God Mode
 		if (godmode) {
 			//ARROW KEYS: switch between selected objects
 			if (Input.GetKey (KeyCode.LeftArrow)) {
@@ -145,8 +147,6 @@ public class Wiimote : MonoBehaviour {
 					gameManager.GetComponent<GameManagerScript> ().Throw();
 				}
 			}
-		} else {
-			//be able to move around
 		}
 	}
 }

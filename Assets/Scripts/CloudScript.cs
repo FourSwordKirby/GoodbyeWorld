@@ -7,6 +7,7 @@ public class CloudScript : InteractableScript {
 
 	private GameObject selectionBox;
     public List<GameObject> clouds;
+	private List<string> rain;
 	private bool selected;
 	private bool increasing;
 
@@ -14,7 +15,6 @@ public class CloudScript : InteractableScript {
 
 	// Use this for initialization
 	void Start () {
-		selected = false;
 	}
 	
 	// Update is called once per frame
@@ -72,6 +72,11 @@ public class CloudScript : InteractableScript {
     override public void Create()
     {
         this.creationAnim = true;
+		selected = false;
+		rain = new List<string> ();
+		rain.Add ("PentagonObjects");
+		rain.Add ("TriangleObjects");
+		rain.Add ("SquareObjects");
     }
 
     //Things that happen on object deletion
@@ -87,6 +92,19 @@ public class CloudScript : InteractableScript {
     //Object's response to bringing down the wiimote
     override public void Throw()
     {
+		//make it rain
+		int index = Random.Range (0, rain.Count);
+		ShapeAnimator animator = ((GameObject)Instantiate(Resources.Load (rain[index]))).GetComponent<ShapeAnimator>();
+
+		//set position
+		Vector2 pos = animator.transform.localPosition;
+		pos.x = (Random.value * 20)- 10;
+		pos.y = 0;
+		animator.transform.localPosition = pos;
+
+		//make smaller
+		animator.transform.localScale *= 0.35f;
+
     }
 
     //Object's response to turning the wiimote
