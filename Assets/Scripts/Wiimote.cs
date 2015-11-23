@@ -117,12 +117,12 @@ public class Wiimote : MonoBehaviour {
 				//create object
 				if (-accZ > 2.5) {
 					PerformAction ();
-					gameManager.GetComponent<GameManagerScript> ().CreateObject ();
+					gameManager.GetComponent<GameManagerScript> ().Lift();
 				}
 				//destroy object
 				if (-accZ < -2.5) {
 					PerformAction ();
-					gameManager.GetComponent<GameManagerScript> ().DestroyObject ();
+					gameManager.GetComponent<GameManagerScript> ().Throw();
 				}
 			}
 		} else {

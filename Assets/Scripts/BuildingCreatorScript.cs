@@ -5,6 +5,7 @@ public class BuildingCreatorScript : InteractableScript {
 	
 	private GameObject selectionBox;
 	private float darknessTransparency = 0.0f;
+	public GameObject gameManager;
 	
 	// Use this for initialization
 	void Start () {
@@ -46,6 +47,8 @@ public class BuildingCreatorScript : InteractableScript {
 	//Object's response to bringing up the wiimote
 	override public void Lift()
 	{
+		InteractableScript building = ((GameObject)Instantiate (Resources.Load ("Building"))).GetComponent<InteractableScript>();
+		gameManager.GetComponent<GameManagerScript> ().ObjectWasCreated (building);
 	}
 	
 	//Object's response to bringing down the wiimote

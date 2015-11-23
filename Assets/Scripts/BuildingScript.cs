@@ -21,7 +21,7 @@ public class BuildingScript : InteractableScript {
 			if (transform.localScale.y < 0) {
 				Destroy (gameObject);
 			}
-			Vector3 scale = transform.localScale;
+			Vector2 scale = transform.localScale;
 			scale.y = transform.localScale.y - (float)0.3;
 			transform.localScale = scale;
 		}

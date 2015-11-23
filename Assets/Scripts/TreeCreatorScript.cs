@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TreeCreatorScript : InteractableScript {
 	
 	private GameObject selectionBox;
 	private float darknessTransparency = 0.0f;
+	public GameObject gameManager;
 	
 	// Use this for initialization
 	void Start () {
@@ -46,6 +47,13 @@ public class TreeCreatorScript : InteractableScript {
 	//Object's response to bringing up the wiimote
 	override public void Lift()
 	{
+		InteractableScript building = ((GameObject)Instantiate (Resources.Load ("Tree"))).GetComponent<InteractableScript>();
+		Vector2 location = building.transform.localPosition;
+		location.y = (float)-4.5 + building.GetComponent<SpriteRenderer> ().bounds.size.y / 2;
+		location.x = Random.value * 12;
+		building.transform.localPosition = location;
+		gameManager.GetComponent<GameManagerScript> ().ObjectWasCreated (building);
+
 	}
 	
 	//Object's response to bringing down the wiimote
