@@ -18,11 +18,10 @@ public class Wiimote : MonoBehaviour {
 	private bool performable;
 	
 	private float calZ = -1;
-	private float calX = -100;
-	private float smooth = 20;
 	private float accX = 0, accY = 0, accZ = 0;
 	private bool leftPressed;
 	private bool rightPressed;
+	private bool onePressed;
 	private bool godmode;
 	
 	// Use this for initialization
@@ -93,8 +92,15 @@ public class Wiimote : MonoBehaviour {
 		
 		//(1) BUTTON: toggle God mode
 		if (Input.GetKey (KeyCode.Return)) {
-			godmode = !godmode;
-			Debug.Log ("currently in god mode: " + godmode);
+			if (!onePressed) {
+				onePressed = true;
+				godmode = !godmode;
+				GameObject.Find ("Character").GetComponent<CharacterAnimator> ().move = !godmode;
+				gameManager.GetComponent<GameManagerScript> ().SetGodMode (godmode);
+				Debug.Log ("currently in god mode: " + godmode);
+			}
+		} else {
+			onePressed = false;
 		}
 		
 		GetWiimoteCoords();

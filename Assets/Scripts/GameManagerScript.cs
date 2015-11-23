@@ -33,6 +33,16 @@ public class GameManagerScript : MonoBehaviour {
 		
 	}
 
+	//toggle god mode, basically select and deselect
+	public void SetGodMode (bool godmode) {
+		//entering godmode
+		if (godmode) {
+			objects[selection].Enter ();
+		} else {
+			objects[selection].Exit ();
+		}
+	}
+
 	//let the creators update the game manager about objects they've created so we can add it to our list
 	public void ObjectWasCreated(InteractableScript spawn, bool tree) {
 		spawn.Create ();
