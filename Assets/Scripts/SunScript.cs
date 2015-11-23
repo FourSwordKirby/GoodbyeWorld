@@ -8,6 +8,19 @@ public class SunScript : InteractableScript {
 
 	// Use this for initialization
 	void Start () {
+		GameObject darkness = GameObject.Find("Darkness");
+		darkness.layer = 5; //move to foreground
+
+		//move sun up to horizon
+		Vector2 pos = transform.localPosition;
+		pos.y = 3;
+		transform.localPosition = pos;
+
+		//ensure that sun is covered by darkness
+		Vector3 position = darkness.transform.localPosition;
+		position.y = -2;
+		position.z -= 2;
+		darkness.transform.localPosition = position;
 	}
 	
 	// Update is called once per frame
