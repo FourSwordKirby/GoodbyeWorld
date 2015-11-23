@@ -11,7 +11,7 @@ public class GameManagerScript : MonoBehaviour {
 	private bool canMakeCreators;
 	public InteractableScript treeCreator;
 	public InteractableScript buildingCreator;
-
+	public InteractableScript clouds;
 	
 	// Use this for initialization
 	void Start () {
@@ -22,6 +22,10 @@ public class GameManagerScript : MonoBehaviour {
 		objects = new List<InteractableScript> ();
 		treeCreator.GetComponent<SpriteRenderer> ().enabled = false;
 		buildingCreator.GetComponent<SpriteRenderer> ().enabled = false;
+		foreach (SpriteRenderer renderer in clouds.GetComponentsInChildren<SpriteRenderer>()) {
+			renderer.enabled = false;
+		}
+
 	}
 	
 	// Update is called once per frame
@@ -49,6 +53,11 @@ public class GameManagerScript : MonoBehaviour {
 		//create clouds
 		else if (creation == 1) {
 			//TODO: create clouds
+			foreach (SpriteRenderer renderer in clouds.GetComponentsInChildren<SpriteRenderer>()) {
+				renderer.enabled = true;
+			}
+			clouds.Create ();
+			objects.Add (clouds);
 			//let user have the ability to create trees and buildings
 			treeCreator.GetComponent<SpriteRenderer> ().enabled = true;
 			objects.Add(treeCreator);

@@ -77,13 +77,15 @@ public class CloudScript : InteractableScript {
         {
             minDistance = Mathf.Min(Mathf.Abs(cloud.transform.position.x), minDistance);
         }
-        if (minDistance < 3.5f)
+        if (minDistance < 3.5f && radians > 0)
             return;
+
+		Debug.Log ("blahp");
 
         float scale = 1 - (radians / (2.0f * Mathf.PI)) * 1f;
         foreach (GameObject cloud in clouds)
         {
-            cloud.transform.position = new Vector2(cloud.transform.position.x * scale, cloud.transform.position.y);
+            cloud.transform.localPosition = new Vector2(cloud.transform.localPosition.x * scale, cloud.transform.localPosition.y);
         }
     }
 }

@@ -71,7 +71,7 @@ public class Wiimote : MonoBehaviour {
 	}
 	
 	void UpdateTimeStamp() {
-		if (DateTime.Now.Ticks - lastAction > 18000000) { //1.5 seconds
+		if (DateTime.Now.Ticks - lastAction > 10000000) { //1.5 seconds
 			performable = true;
 			Debug.Log ("okay you can go for it again");
 		}
@@ -128,11 +128,13 @@ public class Wiimote : MonoBehaviour {
 			if (performable) {
 				//create object
 				if (-accZ > 2.5) {
+					Debug.Log ("Up!");
 					PerformAction ();
 					gameManager.GetComponent<GameManagerScript> ().Lift();
 				}
 				//destroy object
 				if (-accZ < -2.5) {
+					Debug.Log ("Down!");
 					PerformAction ();
 					gameManager.GetComponent<GameManagerScript> ().Throw();
 				}

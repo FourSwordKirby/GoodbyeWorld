@@ -18,6 +18,8 @@ public class BuildingScript : InteractableScript {
 		location.y = (float)-4.5 + GetComponent<SpriteRenderer> ().bounds.size.y;
 		location.x = (Random.value * 20)- 10;
 		transform.localPosition = location;
+
+		transform.localScale *= 2.5f;
 	}
 
 	// Update is called once per frame
