@@ -48,7 +48,6 @@ public class TreeCreatorScript : InteractableScript {
 	override public void Lift()
 	{
 		InteractableScript tree = ((GameObject)Instantiate (Resources.Load ("Tree"))).GetComponent<InteractableScript>();
-		tree.Create ();
 		gameManager.GetComponent<GameManagerScript> ().ObjectWasCreated (tree);
 
 	}

@@ -47,7 +47,6 @@ public class BuildingCreatorScript : InteractableScript {
 	override public void Lift()
 	{
 		InteractableScript building = ((GameObject)Instantiate (Resources.Load ("Building"))).GetComponent<InteractableScript>();
-		building.Create ();
 		gameManager.GetComponent<GameManagerScript> ().ObjectWasCreated (building);
 	}
 	

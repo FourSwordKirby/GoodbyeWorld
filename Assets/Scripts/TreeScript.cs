@@ -8,6 +8,9 @@ public class TreeScript : InteractableScript {
 	public List<Sprite> treeSprites;
 	public Sprite creepySprite;
 	private bool destroy;
+	private float originalScale;
+	private bool create;
+	private float SCALE = 0.5f;
 	
 	// Use this for initialization
 	void Start () {
@@ -21,8 +24,19 @@ public class TreeScript : InteractableScript {
 				Destroy (gameObject);
 			}
 			Vector2 scale = transform.localScale;
-			scale.y = transform.localScale.y - (float)0.3;
+			scale.y = transform.localScale.y - (float)0.10;
 			transform.localScale = scale;
+		}
+		if (create) {
+			Vector2 scale = transform.localScale;
+			if (scale.y > SCALE) {
+				scale.y = SCALE;
+				transform.localScale = scale;
+				create = false;
+			} else {
+				scale.y += (float)0.15;
+				transform.localScale = scale;
+			}
 		}
 	}
 	
@@ -48,15 +62,26 @@ public class TreeScript : InteractableScript {
 	//Things that happen on object creation
 	override public void Create()
 	{
+		//show
 		this.GetComponent<SpriteRenderer> ().sprite = treeSprites[Random.Range (0,treeSprites.Count)];
 		destroy = false;
+		
+		//make bigger
+		transform.localScale *= SCALE;
 
-		transform.localScale *= 0.75f;
-
+		//place in right location
 		Vector2 location = transform.localPosition;
 		location.y = (float)-3.5 + GetComponent<SpriteRenderer> ().bounds.size.y/2;
 		location.x = (Random.value * 20)- 10;
 		transform.localPosition = location;
+		
+		//prepare for animation
+		originalScale = GetComponent<SpriteRenderer>().bounds.size.y;
+		Debug.Log ("BEGIN: " + originalScale);
+		Vector2 scale = transform.localScale;
+		scale.y = 0;
+		transform.localScale = scale;
+		create = true;
 	}
 	
 	//Things that happen on object deletion

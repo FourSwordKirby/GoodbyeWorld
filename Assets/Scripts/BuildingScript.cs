@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 
 public class BuildingScript : InteractableScript {
-
 	private GameObject selectionBox;
 	private float darknessTransparency = 0.0f;
 	private bool destroy;
+	private float originalScale;
+	private bool create;
+	private float SCALE = 2.0f;
 
 	public List<Sprite> buildingSprites;
 
@@ -22,6 +24,17 @@ public class BuildingScript : InteractableScript {
 			Vector2 scale = transform.localScale;
 			scale.y = transform.localScale.y - (float)0.3;
 			transform.localScale = scale;
+		}
+		if (create) {
+			Vector2 scale = transform.localScale;
+			if (scale.y > SCALE) {
+				scale.y = SCALE;
+				transform.localScale = scale;
+				create = false;
+			} else {
+				scale.y += (float)0.15;
+				transform.localScale = scale;
+			}
 		}
 	}
 	
@@ -46,15 +59,26 @@ public class BuildingScript : InteractableScript {
 	//Things that happen on object creation
 	override public void Create()
 	{
+		//show
 		this.GetComponent<SpriteRenderer> ().sprite = buildingSprites[Random.Range (0,buildingSprites.Count)];
 		destroy = false;
 
-		transform.localScale *= 1.25f;
+		//make bigger
+		transform.localScale *= SCALE;
 
+		//place in right location
 		Vector2 location = transform.localPosition;
 		location.y = (float)-3.5 + GetComponent<SpriteRenderer> ().bounds.size.y/2;
 		location.x = (Random.value * 20)- 10;
 		transform.localPosition = location;
+
+		//prepare for animation
+		originalScale = GetComponent<SpriteRenderer>().bounds.size.y;
+		Debug.Log ("BEGIN: " + originalScale);
+		Vector2 scale = transform.localScale;
+		scale.y = 0;
+		transform.localScale = scale;
+		create = true;
 	}
 	
 	//Things that happen on object deletion
