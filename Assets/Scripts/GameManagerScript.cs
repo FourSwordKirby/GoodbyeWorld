@@ -61,8 +61,9 @@ public class GameManagerScript : MonoBehaviour {
 	
 	public void DestroyObject() {
 		if (objects.Count > 0) {
-			objects[selection].Destroy ();
-			objects.Remove (objects[selection]);
+			InteractableScript obj = objects[selection];
+			ChangeSelection(true);
+			objects.Remove(obj);
 		}
 		Debug.Log ("destroy object");
 	}
@@ -95,8 +96,9 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	public void Throw() {
-		if (objects.Count > 0) 
+		if (objects.Count > 0) {
 			objects [selection].Throw ();
+		}
 	}
 }
 

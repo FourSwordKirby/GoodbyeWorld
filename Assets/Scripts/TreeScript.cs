@@ -59,6 +59,7 @@ public class TreeScript : InteractableScript {
 	//Things that happen on object deletion
 	override public void Destroy()
 	{
+		destroy = true;
 	}
 	
 	//Object's response to bringing up the wiimote
@@ -69,6 +70,8 @@ public class TreeScript : InteractableScript {
 	//Object's response to bringing down the wiimote
 	override public void Throw()
 	{
+		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject ();
+		Destroy ();
 	}
 	
 	//Object's response to turning the wiimote
