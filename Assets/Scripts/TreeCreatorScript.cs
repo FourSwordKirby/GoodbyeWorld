@@ -23,8 +23,8 @@ public class TreeCreatorScript : InteractableScript {
 		//Sets the bounds etc. of the selection box
 		selectionBox.transform.Rotate(new Vector3(270, 0, 0));
 		selectionBox.transform.localScale *= 0.3f;
-		
 		selectionBox.transform.SetParent(this.gameObject.transform);
+		selectionBox.transform.localPosition = new Vector2 (0, 0);
 		
 	}
 	
@@ -48,10 +48,6 @@ public class TreeCreatorScript : InteractableScript {
 	override public void Lift()
 	{
 		InteractableScript building = ((GameObject)Instantiate (Resources.Load ("Tree"))).GetComponent<InteractableScript>();
-		Vector2 location = building.transform.localPosition;
-		location.y = (float)-4.5 + building.GetComponent<SpriteRenderer> ().bounds.size.y / 2;
-		location.x = Random.value * 12;
-		building.transform.localPosition = location;
 		gameManager.GetComponent<GameManagerScript> ().ObjectWasCreated (building);
 
 	}

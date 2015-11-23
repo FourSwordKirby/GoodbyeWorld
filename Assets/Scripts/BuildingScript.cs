@@ -11,8 +11,13 @@ public class BuildingScript : InteractableScript {
 
 	// Use this for initialization
 	void Start () {
-		this.GetComponent<SpriteRenderer> ().sprite = buildingSprites[Random.Range (0,buildingSprites.Count-1)];
+		this.GetComponent<SpriteRenderer> ().sprite = buildingSprites[Random.Range (0,buildingSprites.Count)];
 		destroy = false;
+
+		Vector2 location = transform.localPosition;
+		location.y = (float)-4.5 + GetComponent<SpriteRenderer> ().bounds.size.y;
+		location.x = (Random.value * 20)- 10;
+		transform.localPosition = location;
 	}
 
 	// Update is called once per frame
@@ -35,9 +40,8 @@ public class BuildingScript : InteractableScript {
 		//Sets the bounds etc. of the selection box
 		selectionBox.transform.Rotate(new Vector3(270, 0, 0));
 		selectionBox.transform.localScale *= 0.3f;
-		
 		selectionBox.transform.SetParent(this.gameObject.transform);
-		
+		selectionBox.transform.localPosition = new Vector2 (0, 0);
 	}
 	
 	//What happens when you deselect the object

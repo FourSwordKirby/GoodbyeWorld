@@ -23,9 +23,8 @@ public class BuildingCreatorScript : InteractableScript {
 		//Sets the bounds etc. of the selection box
 		selectionBox.transform.Rotate(new Vector3(270, 0, 0));
 		selectionBox.transform.localScale *= 0.3f;
-		
 		selectionBox.transform.SetParent(this.gameObject.transform);
-		
+		selectionBox.transform.localPosition = new Vector2 (0, 0);
 	}
 	
 	//What happens when you deselect the object

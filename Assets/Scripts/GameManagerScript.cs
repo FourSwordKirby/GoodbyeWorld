@@ -55,9 +55,6 @@ public class GameManagerScript : MonoBehaviour {
 			buildingCreator.GetComponent<SpriteRenderer> ().enabled = true;
 			objects.Add (buildingCreator);
 		}
-
-
-
 		++creation;
 
 	}
