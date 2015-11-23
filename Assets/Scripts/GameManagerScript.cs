@@ -5,8 +5,8 @@ public class GameManagerScript : MonoBehaviour {
 	
 	private List<InteractableScript> objects;
 	private int selection; //the object that is currently selected
-	private int trees;
-	private int buildings;
+	public int trees;
+	public int buildings;
 	private int creation;
 	private bool canMakeCreators;
 	public InteractableScript treeCreator;
@@ -34,15 +34,17 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	//let the creators update the game manager about objects they've created so we can add it to our list
-	public void ObjectWasCreated(InteractableScript spawn) {
+	public void ObjectWasCreated(InteractableScript spawn, bool tree) {
 		spawn.Create ();
 		objects.Add (spawn);
+
+		if (tree) 
+			++trees;
+		else
+			++buildings;
 	}
 	
 	public void CreateObject() {
-		//TODO: decide the order in which objects come in
-		Debug.Log ("creat object");
-
 		//create sun
 		if (creation == 0) {
 			InteractableScript sun = ((GameObject)Instantiate (Resources.Load ("Sun"))).GetComponent<InteractableScript>();
@@ -52,7 +54,7 @@ public class GameManagerScript : MonoBehaviour {
 		} 
 		//create clouds
 		else if (creation == 1) {
-			//TODO: create clouds
+			//create clouds
 			foreach (SpriteRenderer renderer in clouds.GetComponentsInChildren<SpriteRenderer>()) {
 				renderer.enabled = true;
 			}
@@ -68,13 +70,15 @@ public class GameManagerScript : MonoBehaviour {
 
 	}
 	
-	public void DestroyObject() {
-		if (objects.Count > 0) {
-			InteractableScript obj = objects[selection];
-			ChangeSelection(true);
-			objects.Remove(obj);
-		}
-		Debug.Log ("destroy object");
+	public void DestroyObject(bool tree) {
+		InteractableScript obj = objects[selection];
+		ChangeSelection(true);
+		objects.Remove(obj);
+
+		if (tree)
+			--trees;
+		else 
+			--buildings;
 	}
 	
 	//cycle through all th different objects

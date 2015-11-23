@@ -62,8 +62,12 @@ public class TreeScript : InteractableScript {
 	//Things that happen on object creation
 	override public void Create()
 	{
-		//show
-		this.GetComponent<SpriteRenderer> ().sprite = treeSprites[Random.Range (0,treeSprites.Count)];
+		//show creepy sprite if there are too many buildings
+		GameManagerScript gameManager = ((GameObject)GameObject.Find ("GameManager")).GetComponent<GameManagerScript>();
+		if (gameManager.buildings >= gameManager.trees + 4)
+			this.GetComponent<SpriteRenderer> ().sprite = creepySprite;
+		else 
+			this.GetComponent<SpriteRenderer> ().sprite = treeSprites[Random.Range (0,treeSprites.Count)];
 		destroy = false;
 		
 		//make bigger
@@ -98,7 +102,7 @@ public class TreeScript : InteractableScript {
 	//Object's response to bringing down the wiimote
 	override public void Throw()
 	{
-		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject ();
+		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (true);
 		Destroy ();
 	}
 	

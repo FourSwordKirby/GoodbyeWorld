@@ -95,7 +95,7 @@ public class BuildingScript : InteractableScript {
 	//Object's response to bringing down the wiimote
 	override public void Throw()
 	{
-		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject ();
+		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (false);
 		Destroy ();
 	}
 	
