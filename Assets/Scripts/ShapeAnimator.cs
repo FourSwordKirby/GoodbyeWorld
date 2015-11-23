@@ -21,7 +21,9 @@ public class ShapeAnimator : MonoBehaviour
         lifeSpan -= Time.deltaTime * decayRate;
         if (lifeSpan <= 0)
         {
-            animator.SetBool("Dead", false);
+            animator.SetBool("Dead", true);
         }
+        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Exit")) 
+            Destroy(this.gameObject);
     }
 }
