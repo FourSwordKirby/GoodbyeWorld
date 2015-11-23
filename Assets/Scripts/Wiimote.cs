@@ -21,8 +21,8 @@ public class Wiimote : MonoBehaviour {
 	private float calX = -100;
 	private float smooth = 20;
 	private float accX = 0, accY = 0, accZ = 0;
-	private bool zPressed;
-	private bool xPressed;
+	private bool leftPressed;
+	private bool rightPressed;
 	private bool godmode;
 	
 	// Use this for initialization
@@ -81,7 +81,8 @@ public class Wiimote : MonoBehaviour {
 	
 	void Awake ()
 	{	
-		zPressed = false;
+		leftPressed = false;
+		rightPressed = false;
 		godmode = true;
 		lastAction = 0;
 	}
@@ -107,9 +108,20 @@ public class Wiimote : MonoBehaviour {
 		if (godmode) {
 			//ARROW KEYS: switch between selected objects
 			if (Input.GetKey (KeyCode.LeftArrow)) {
-				gameManager.GetComponent<GameManagerScript> ().ChangeSelection (true);
-			} else if (Input.GetKey (KeyCode.RightArrow)) {
-				gameManager.GetComponent<GameManagerScript> ().ChangeSelection (false);
+				if (!leftPressed) {
+					leftPressed = true;
+					gameManager.GetComponent<GameManagerScript> ().ChangeSelection (true);
+				}
+			} else {
+				leftPressed = false;
+			}
+			if (Input.GetKey (KeyCode.RightArrow)) {
+				if (!rightPressed) {
+					rightPressed = true;
+					gameManager.GetComponent<GameManagerScript> ().ChangeSelection (false);
+				}
+			} else {
+				rightPressed = false;
 			}
 			
 			//LIFT AND THROW

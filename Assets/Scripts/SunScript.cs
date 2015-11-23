@@ -35,6 +35,7 @@ public class SunScript : InteractableScript {
     //Things that happen on object creation
     override public void Create()
     {
+		transform.localPosition = new Vector2 (0, 0);
     }
 
     //Things that happen on object deletion
