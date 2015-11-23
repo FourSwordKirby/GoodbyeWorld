@@ -7,26 +7,25 @@ public class SunScript : InteractableScript {
     private float darknessTransparency = 0.0f;
 	private bool selected;
 	private bool increasing;
+	private bool created;
 
 	// Use this for initialization
 	void Start () {
-		GameObject darkness = GameObject.Find("Darkness");
-		darkness.layer = 5; //move to foreground
 
-		//move sun up to horizon
-		Vector2 pos = transform.localPosition;
-		pos.y = 3;
-		transform.localPosition = pos;
-
-		//ensure that sun is covered by darkness
-		Vector3 position = darkness.transform.localPosition;
-		position.y = -2;
-		position.z -= 2;
-		darkness.transform.localPosition = position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (created) {
+			Vector2 pos = transform.localPosition;
+			if (pos.y >= 3.0f) {
+				pos.y = 3.0f;
+				created = false;
+			} else {
+				pos.y += 0.2f;
+			}
+			transform.localPosition = pos;
+		}
 		if (selected) {
 			Color color = GetComponent<SpriteRenderer>().color;
 			if (increasing) {
@@ -64,7 +63,20 @@ public class SunScript : InteractableScript {
     //Things that happen on object creation
     override public void Create()
     {
-		transform.localPosition = new Vector2 (0, 0);
+		GameObject darkness = GameObject.Find("Darkness");
+		darkness.layer = 5; //move to foreground
+		
+		//start sun from off screen and come up over horizon lmao
+		Vector2 pos = transform.localPosition;
+		pos.y = -5.0f;
+		transform.localPosition = pos;
+		created = true;
+		
+		//ensure that sun is covered by darkness
+		Vector3 position = darkness.transform.localPosition;
+		position.y = -2;
+		position.z -= 2;
+		darkness.transform.localPosition = position;
     }
 
     //Things that happen on object deletion
