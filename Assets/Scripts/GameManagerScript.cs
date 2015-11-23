@@ -73,7 +73,9 @@ public class GameManagerScript : MonoBehaviour {
 	public void DestroyObject(bool tree) {
 		InteractableScript obj = objects[selection];
 		ChangeSelection(true);
+		InteractableScript newObj = objects [selection];
 		objects.Remove(obj);
+		selection = objects.IndexOf (newObj);
 
 		if (tree)
 			--trees;
@@ -84,7 +86,6 @@ public class GameManagerScript : MonoBehaviour {
 	//cycle through all th different objects
 	public void ChangeSelection(bool next) {
 		if (objects.Count > 0) {
-			if (selection >= objects.Count) selection = objects.Count-1;
 			objects[selection].Exit();
 			if (next)
 				selection = (selection + 1) % objects.Count;
