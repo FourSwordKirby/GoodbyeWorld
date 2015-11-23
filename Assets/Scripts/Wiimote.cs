@@ -135,13 +135,13 @@ public class Wiimote : MonoBehaviour {
 			//LIFT AND THROW
 			if (performable) {
 				//create object
-				if (-accZ > 2.5) {
+				if (-accZ > 2.5 || Input.GetKey(KeyCode.K)) {
 					Debug.Log ("Up!");
 					PerformAction ();
 					gameManager.GetComponent<GameManagerScript> ().Lift();
 				}
 				//destroy object
-				if (-accZ < -2.5) {
+				if (-accZ < -2.5 || Input.GetKey(KeyCode.J)) {
 					Debug.Log ("Down!");
 					PerformAction ();
 					gameManager.GetComponent<GameManagerScript> ().Throw();
