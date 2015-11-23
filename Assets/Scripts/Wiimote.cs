@@ -101,7 +101,7 @@ public class Wiimote : MonoBehaviour {
 		//A BUTTON: control rotation of the sun
 		if (Input.GetKey (KeyCode.X)) {
 			float rad = -accX * 2 * (float)Math.PI;
-			gameManager.GetComponent<GameManagerScript> ().TurnSun (rad);
+			gameManager.GetComponent<GameManagerScript> ().Turn (rad);
 		}
 		
 		if (godmode) {

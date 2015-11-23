@@ -4,11 +4,21 @@ using System.Collections.Generic;
 public class GameManagerScript : MonoBehaviour {
 	
 	private List<InteractableScript> objects;
-	int selection; //the object that is currently selected
+	private int selection; //the object that is currently selected
+	private int trees;
+	private int buildings;
+	private int creation;
 	public InteractableScript sun;
+	public InteractableScript treeCreator;
+	public InteractableScript buildingCreator;
+
 	
 	// Use this for initialization
 	void Start () {
+		selection = -1;
+		trees = 0;
+		buildings = 0;
+		creation = 0;
 		objects = new List<InteractableScript> ();
 		objects.Add (sun);
 	}
@@ -22,6 +32,8 @@ public class GameManagerScript : MonoBehaviour {
 		//TODO: decide the order in which objects come in
 		Debug.Log ("creat object");
 
+		++creation;
+
 	}
 	
 	public void DestroyObject() {
@@ -30,7 +42,6 @@ public class GameManagerScript : MonoBehaviour {
 			objects.Remove (objects[selection]);
 		}
 		Debug.Log ("destroy object");
-		
 	}
 	
 	//cycle through all th different objects
@@ -46,9 +57,10 @@ public class GameManagerScript : MonoBehaviour {
 		Debug.Log ("current index " + selection);
 	}
 	
-	public void TurnSun(float radians) {
-		Debug.Log ("Turn sun this many degrees " + radians);
-		sun.GetComponent<SunScript> ().Turn (radians);
+	public void Turn(float radians) {
+		Debug.Log ("Turn this many degrees " + radians);
+		if (objects.Count > 0)
+			objects[selection].Turn (radians);
 	}
 }
 
