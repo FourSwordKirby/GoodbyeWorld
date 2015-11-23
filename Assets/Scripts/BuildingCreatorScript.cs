@@ -5,7 +5,6 @@ public class BuildingCreatorScript : InteractableScript {
 	
 	private GameObject selectionBox;
 	private float darknessTransparency = 0.0f;
-	public GameObject gameManager;
 	private bool selected;
 	private bool increasing;
 	
