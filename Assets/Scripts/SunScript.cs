@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class SunScript : InteractableScript {
-    private float darknessTransparency = 0.0f;
+    private float darknessTransparency = 0.6f;
 	private bool increasing;
 	private bool created;
 	private bool selected;
 
 	// Use this for initialization
 	void Start () {
-
+		Turn (0.0f);
 	}
 	
 	// Update is called once per frame
@@ -69,12 +69,6 @@ public class SunScript : InteractableScript {
 		pos.y = -5.0f;
 		transform.localPosition = pos;
 		created = true;
-		
-		//ensure that sun is covered by darkness
-		Vector3 position = darkness.transform.localPosition;
-		position.y = -2;
-		position.z -= 2;
-		darkness.transform.localPosition = position;
     }
 
     //Things that happen on object deletion

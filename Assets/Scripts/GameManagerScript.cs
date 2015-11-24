@@ -7,11 +7,15 @@ public class GameManagerScript : MonoBehaviour {
 	private int selection; //the object that is currently selected
 	public int trees;
 	public int buildings;
+	public int totalBuildings;
+	public int totalTrees;
 	private int creation;
 	private bool canMakeCreators;
 	public InteractableScript treeCreator;
 	public InteractableScript buildingCreator;
 	public InteractableScript clouds;
+	public AudioSource[] audios;
+	private GameObject sun;
 	
 	// Use this for initialization
 	void Start () {
@@ -25,12 +29,35 @@ public class GameManagerScript : MonoBehaviour {
 		foreach (SpriteRenderer renderer in clouds.GetComponentsInChildren<SpriteRenderer>()) {
 			renderer.enabled = false;
 		}
-
+		audios = GetComponents<AudioSource> ();
+		audios [0].Play ();
+		audios [1].Stop ();
+		sun = GameObject.Find ("Sun");
+		sun.GetComponent<SpriteRenderer> ().enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (!audios [0].isPlaying && !audios [1].isPlaying) {
+			if (totalBuildings > totalTrees + 3) {
+				audios[1].Play ();
+			} else {
+				audios[0].Play ();
+			}
+		}
+		if (audios [0].isPlaying) {
+			//3 buildings for every tree
+			if ((buildings > trees * 3 || totalBuildings > totalTrees * 3) && buildings > 2) {
+				audios [0].Stop ();
+				audios [1].Play ();
+			}
+		} else {
+			//2 buildings for every tree
+			if (buildings < trees * 2) {
+				audios[1].Stop ();
+				audios[0].Play ();
+			}
+		}
 	}
 
 	//toggle god mode, basically select and deselect
@@ -53,23 +80,24 @@ public class GameManagerScript : MonoBehaviour {
 
 		if (tree) {
 			++trees;
+			++totalTrees;
 			GameObject.Find ("TreeCreator").GetComponent<TreeCreatorScript> ().IncreaseLifeSpan ();
 		} else {
 			++buildings;
+			++totalBuildings;
 			GameObject.Find ("TreeCreator").GetComponent<TreeCreatorScript> ().DecreaseLifeSpan ();
 		}
 	}
 
 	public void DestroyObject(InteractableScript spawn, bool tree) {
-		Debug.Log ("DESTROY: index " + selection + " objects count " + objects.Count);
 		InteractableScript newObj = null;
 		InteractableScript obj = objects[selection];
+		Debug.Log ("?????? " + selection + " size " + objects.Count);
 		if (obj == spawn) {
 			ChangeSelection (true);
 			newObj = objects [selection];
 		}
 		objects.Remove(spawn);
-		Debug.Log ("remove " + obj);
 		if (obj == spawn) selection = objects.IndexOf (newObj);
 		
 		if (tree)
@@ -78,14 +106,15 @@ public class GameManagerScript : MonoBehaviour {
 			--buildings;
 			GameObject.Find("TreeCreator").GetComponent<TreeCreatorScript>().IncreaseLifeSpan();
 		}
+		Debug.Log ("asdfasdfasdfasdf");
 	}
 	
 	public void CreateObject() {
 		//create sun
 		if (creation == 0) {
-			InteractableScript sun = ((GameObject)Instantiate (Resources.Load ("Sun"))).GetComponent<InteractableScript>();
-			objects.Add (sun);
-			sun.Create ();
+			sun.GetComponent<SpriteRenderer>().enabled = true;
+			objects.Add (sun.GetComponent<InteractableScript>());
+			sun.GetComponent<SunScript>().Create ();
 			ChangeSelection(true);
 		} 
 		//create clouds
@@ -109,6 +138,8 @@ public class GameManagerScript : MonoBehaviour {
 	//cycle through all th different objects
 	public void ChangeSelection(bool next) {
 		if (objects.Count > 0) {
+			if (selection >= objects.Count) selection = objects.Count-1;
+			if (selection < 0) selection = 0;
 			if (objects[selection]) objects[selection].Exit();
 			if (next)
 				selection = (selection + 1) % objects.Count;
@@ -132,8 +163,12 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	public void Throw() {
-		if (objects.Count > 0) 
+		if (objects.Count > 0) {
+			Debug.Log ("selection " + selection + " size " + objects.Count);
+			if (selection >= objects.Count) selection = objects.Count-1;
+			if (selection < 0) selection = 0;
 			objects [selection].Throw ();
+		}
 	}
 }
 

@@ -4,7 +4,7 @@ using System.Collections;
 public class ShapeAnimator : MonoBehaviour
 {
     public float decayRate = 1.0f;
-    public float lifeSpan = 10.0f;
+    public float lifeSpan = 35.0f;
     Animator animator;
 
     // Use this for initialization
@@ -12,6 +12,7 @@ public class ShapeAnimator : MonoBehaviour
     {
         // Define animator.
         animator = gameObject.GetComponent<Animator>();
+		transform.Rotate (new Vector3(0f,0f,50.0f));
     }
 
     // Update is called once per frame

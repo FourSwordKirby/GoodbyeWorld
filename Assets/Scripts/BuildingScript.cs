@@ -89,7 +89,7 @@ public class BuildingScript : InteractableScript {
 		//place in right location
 		Vector2 location = transform.localPosition;
 		location.y = (float)-3.5 + GetComponent<SpriteRenderer> ().bounds.size.y/2;
-		location.x = (Random.value * 20)- 10;
+		location.x = Random.Range (-10.0f, 10.0f);
 		transform.localPosition = location;
 
 		//prepare for animation

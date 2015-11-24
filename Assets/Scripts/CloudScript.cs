@@ -90,20 +90,21 @@ public class CloudScript : InteractableScript {
     //Object's response to bringing down the wiimote
     override public void Throw()
     {
-		//make it rain
-		int index = Random.Range (0, rain.Count);
-		ShapeAnimator animator = ((GameObject)Instantiate(Resources.Load (rain[index]))).GetComponent<ShapeAnimator>();
-
 		//set position
-		Vector3 pos = animator.transform.localPosition;
-		pos.x = (Random.value * 20)- 10;
-		pos.y = 0;
-		pos.z += 0.2f;
-		animator.transform.localPosition = pos;
+		for (int i = 0; i < 3; i++) {
+			//make it rain
+			int index = Random.Range (0, rain.Count);
+			ShapeAnimator animator = ((GameObject)Instantiate (Resources.Load (rain [index]))).GetComponent<ShapeAnimator> ();
 
-		//make smaller
-		animator.transform.localScale *= 0.20f;
+			Vector3 pos = animator.transform.localPosition;
+			pos.x = (Random.value * 20) - 10;
+			pos.y = 0;
+			pos.z += 0.2f;
+			animator.transform.localPosition = pos;
 
+			//make smaller
+			animator.transform.localScale *= 0.20f;
+		}
     }
 
     //Object's response to turning the wiimote
@@ -117,7 +118,7 @@ public class CloudScript : InteractableScript {
         if (minDistance < 3.5f && radians > 0)
             return;
 
-        float scale = 1 - (radians / (2.0f * Mathf.PI)) * 1f;
+        float scale = 1 - (radians / (2.0f * Mathf.PI)) * 0.251f;
         foreach (GameObject cloud in clouds)
         {
             cloud.transform.localPosition = new Vector2(cloud.transform.localPosition.x * scale, cloud.transform.localPosition.y);
