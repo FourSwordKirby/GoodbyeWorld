@@ -79,6 +79,8 @@ public class BuildingScript : InteractableScript {
 	//Things that happen on object creation
 	override public void Create()
 	{
+		this.GetComponent<AudioSource> ().Play ();
+
 		//show
 		this.GetComponent<SpriteRenderer> ().sprite = buildingSprites[Random.Range (0,buildingSprites.Count)];
 		destroy = false;
@@ -107,6 +109,7 @@ public class BuildingScript : InteractableScript {
 	//Things that happen on object deletion
 	override public void Destroy()
 	{
+		this.GetComponent<AudioSource> ().Play ();
 		destroy = true;
 		lifeSpan = 20000000;
 		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (this, false);

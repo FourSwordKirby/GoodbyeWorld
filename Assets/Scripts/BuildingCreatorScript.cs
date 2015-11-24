@@ -4,7 +4,7 @@ using System.Collections;
 public class BuildingCreatorScript : InteractableScript {
 	private bool selected;
 	private bool increasing;
-	private long lifeSpan = 12;
+	private long lifeSpan = 30;
 	
 	// Use this for initialization
 	void Start () {

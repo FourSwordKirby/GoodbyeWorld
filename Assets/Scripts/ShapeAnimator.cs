@@ -35,4 +35,16 @@ public class ShapeAnimator : MonoBehaviour
 			transform.position = pos;
 		}
     }
+	/*
+	void OnCollision2DEnter(Collision2D other)
+	{
+		Debug.Log ("colliding");
+		this.GetComponent<AudioSource> ().Play ();
+	}
+	*/
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		Debug.Log ("colliding");
+		this.GetComponent<AudioSource> ().Play ();
+	}
 }

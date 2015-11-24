@@ -83,6 +83,8 @@ public class TreeScript : InteractableScript {
 	//Things that happen on object creation
 	override public void Create()
 	{
+		this.GetComponent<AudioSource> ().Play ();
+
 		//show creepy sprite if there are too many buildings
 		GameManagerScript gameManager = ((GameObject)GameObject.Find ("GameManager")).GetComponent<GameManagerScript>();
 		if (gameManager.buildings >= gameManager.trees + 4)
@@ -115,6 +117,7 @@ public class TreeScript : InteractableScript {
 	//Things that happen on object deletion
 	override public void Destroy()
 	{
+		this.GetComponent<AudioSource> ().Play ();
 		destroy = true;
 		lifeSpan = 20000000;
 		GameObject.Find ("GameManager").GetComponent<GameManagerScript> ().DestroyObject (this, true);

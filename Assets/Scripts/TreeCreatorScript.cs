@@ -4,7 +4,7 @@ using System.Collections;
 public class TreeCreatorScript : InteractableScript {
 	private bool selected;
 	private bool increasing;
-	private long lifeSpan = 15;
+	private long lifeSpan = 25;
 	
 	// Use this for initialization
 	void Start () {
@@ -59,12 +59,12 @@ public class TreeCreatorScript : InteractableScript {
 	}
 
 	public void DecreaseLifeSpan() {
-		if (lifeSpan > 3) 
+		if (lifeSpan > 10) 
 			lifeSpan -= 1;
 	}
 
 	public void IncreaseLifeSpan() {
-		if (lifeSpan < 15)
+		if (lifeSpan < 25)
 			lifeSpan += 1;
 	}
 	
